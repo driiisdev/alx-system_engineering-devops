@@ -1,1 +1,2 @@
-chmod u+x 0x02-shell_redirections
+# make all files in directory excutable
+chmod -R +x *
