@@ -1,2 +1,5 @@
-shell permission
-chmod u+x 0x01-shell_permissions
+# make all files in directory executable
+chmod -R +x *
+
+# make a file executable
+chmod u+x <file>
