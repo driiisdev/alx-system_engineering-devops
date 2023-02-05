@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# this script prints "Hi" if count is on 9, else displays "Best School"
+i=0
+while [ $i -lt 10 ]
+do
+	if [ $i -eq 9 ]
+	then
+		echo "Hi"
+	fi
+	echo "Best School"
+	((i++))
+done
