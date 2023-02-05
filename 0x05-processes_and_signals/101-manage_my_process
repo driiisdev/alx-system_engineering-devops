@@ -1,35 +1,22 @@
 #!/usr/bin/env bash
-# Write a script that manages the manage_my_process process:
-# If "start" argument passed:
-## Starts
+# this script that manages the manage_my_process process:
 
-start_p() {
-    ./manage_my_process &
-    echo $$ > /var/run/my_process.pid
-}
+PIDFILE=/var/run/my_process.pid
 
-stop_p() {
-    rm /var/run/my_process.pid
-    pkill -of manage_my_process
-}
-
-has_arg_1() {
-    if [ "$CMD" == "start" ]; then
-	start_p
-	echo "manage_my_process started"
-    elif [ "$CMD" == "stop" ]; then
-	stop_p
-	echo "manage_my_process stopped"
-    elif [ "$CMD" == "restart" ]; then
-	stop_p
-	start_p
-	echo "manage_my_process restarted"
-    fi
-}
-
-if [ $# -gt 0 ]; then
-    CMD="$1"
-    has_arg_1
+if [ "$1" = "start" ]; then
+	./manage_my_process &
+	echo "$!" > "$PIDFILE"
+	echo manage_my_process started
+elif [ "$1" = "stop" ]; then
+	pkill -SIGKILL -f ./manage_my_process
+	rm "$PIDFILE"
+	echo manage_my_process stopped
+elif [ "$1" = "restart" ]; then
+	pkill -SIGKILL -f ./manage_my_process
+	rm "$PIDFILE"
+	./manage_my_process &
+	echo "$!" > "$PIDFILE"
+	echo manage_my_process restarted
 else
-    echo "Usage: manage_your_process {start|stop|restart}"
+	echo "Usage: manage_my_process {start|stop|restart}"
 fi
