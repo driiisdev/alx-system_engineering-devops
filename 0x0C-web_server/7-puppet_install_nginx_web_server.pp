@@ -1,9 +1,7 @@
-# install nginx
-exec {'/usr/bin/env apt-get -y update': }
-exec {'/usr/bin/env apt-get -y install nginx': }
-exec {'/usr/bin/env echo "Holberton School" > /var/www/html/index.nginx-debian.html': }
-exec {'/usr/bin/env sed -i "/server_name _;/ a\\\trewrite ^/redirect_me http://www.holbertonschool.com permanent;" /etc/nginx/sites-available/default': }
-exec {'/usr/bin/env sed -i "/server_name _;/ a\\\terror_page 404 /custom_404.html;" /etc/nginx/sites-available/default': }
-exec {'/usr/bin/env echo "Ceci n\'est pas une page" > /var/www/html/custom_404.html': }
-exec {'/usr/bin/env service nginx start': }
+# Installs a Nginx server
+
+exec {'install':
+  provider => shell,
+  command  => 'sudo apt-get -y update ; sudo apt-get -y install nginx ; sudo sh -c 'echo "Hello World!" > /var/www/html/index.html'; sudo sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/driiisdev-S permanent;/" /etc/nginx/sites-available/default ; sudo service nginx start',
+}
 
