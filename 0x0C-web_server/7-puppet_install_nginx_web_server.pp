@@ -1,7 +1,22 @@
-# Installs a Nginx server
-
-exec {'install':
-  provider => shell,
-  command  => 'sudo apt-get -y update ; sudo apt-get -y install nginx ; sudo sh -c 'echo "Hello World!" > /var/www/html/index.html'; sudo sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/driiisdev-S permanent;/" /etc/nginx/sites-available/default ; sudo service nginx start',
+# Installs and configure nginx
+package { 'jfryman-nginx':
+  ensure => installed,
 }
 
+include nginx
+
+class { 'nginx':
+  manage_repo    => true,
+  package_source => 'nginx-stable',
+}
+
+nginx::resource::server { '35.173.215.47':
+  listen_port      => 80,
+  www_root         => '/var/www/html/',
+  vhost_cfg_append => { 'rewrite' => '^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent' },
+}
+
+file { 'index':
+  path    => '/var/www/html/index.nginx-debian.html',
+  content => 'Hello World!',
+}
