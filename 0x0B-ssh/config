@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-Host ubuntu
-  hostname 100.26.56.24
-  Uer deploy
-  IdentityFile ~/.ssh/id_rsa
-  IdentitiesOnly yes

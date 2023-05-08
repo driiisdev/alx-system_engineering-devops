@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-# Connects via ssh specifying private key
+# Connects to server via ssh private key and user ubuntu
 ssh -i ~/.ssh/school ubuntu@100.26.56.24

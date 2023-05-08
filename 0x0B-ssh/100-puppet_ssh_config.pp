@@ -1,19 +1,15 @@
-#!/usr/bin/env bash
-# Creates an ssh config file to bypass passphrase
-file_line { 'Declare_identity_file':
-  path    => '/etc/ssh/ssh_config',
-  line    => 'IdentityFile ~/.ssh/holberton',
-}
+#!/usr/bin/puppet
+# configures ssh with puppet
 
-file_line { 'Turn_off_passwd_auth':
-  path    => '/etc/ssh/ssh_config',
-  line    => 'PasswordAuthentication no',
+include stdlib
+
+file_line { 'nopwd':
+  ensure => present,
+  line   => 'PasswordAuthentication no',
+  path   => '/etc/ssh/ssh_config',
 }
-file { '~/.ssh/config':
-  ensure  => present,
-  path    => '~/.ssh/config',
-  mode    => '0744',
-  owner   => 'www-data',
-  group   => 'www-data',
-  content => "Host *   PasswordAuthentication no\n    IdentityFile ~/.ssh/school\n    SendEnv LANG LC_*\n    HashKnownHosts yes\n    GSSAPIAuthentication yes\n    GSSAPIDelegateCredentials no"
+file_line { 'identity':
+  ensure => present,
+  line   => 'IdentityFile ~/.ssh/school',
+  path   => '/etc/ssh/ssh_config',
 }
