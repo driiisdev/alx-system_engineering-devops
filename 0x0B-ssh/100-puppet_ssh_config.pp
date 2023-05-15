@@ -1,15 +1,9 @@
-#!/usr/bin/puppet
-# configures ssh with puppet
+#!/usr/bin/env bash
+# set up your client SSH configuration file so that you can
+# connect to a server without typing a password
 
-include stdlib
-
-file_line { 'nopwd':
-  ensure => present,
-  line   => 'PasswordAuthentication no',
-  path   => '/etc/ssh/ssh_config',
-}
-file_line { 'identity':
-  ensure => present,
-  line   => 'IdentityFile ~/.ssh/school',
-  path   => '/etc/ssh/ssh_config',
+exec { 'echo':
+  path    => 'usr/bin:/bin',
+  command => 'echo "    IdentityFile ~/.ssh/school\n    PasswordAuthentication no" >> /etc/ssh/ssh_config',
+  returns => [0,1],
 }
