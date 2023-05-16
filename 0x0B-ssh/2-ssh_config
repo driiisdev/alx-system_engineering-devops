@@ -55,6 +55,6 @@ Host *
 #   GSSAPIDelegateCredentials no
 
 Host myserver
-    HostName 100.26.56.24
+    HostName 56.146.70.37
     IdentityFile ~/.ssh/school
     PasswordAuthentication no
