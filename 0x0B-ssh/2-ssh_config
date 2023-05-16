@@ -22,7 +22,7 @@ Host *
 #   ForwardX11Trusted yes
 #   RhostsRSAAuthentication no
 #   RSAAuthentication yes
-#   PasswordAuthentication yes
+    PasswordAuthentication no
 #   HostbasedAuthentication no
 #   GSSAPIAuthentication no
 #   GSSAPIDelegateCredentials no
@@ -49,12 +49,7 @@ Host *
 #   VisualHostKey no
 #   ProxyCommand ssh -q -W %h:%p gateway.example.com
 #   RekeyLimit 1G 1h
-#   SendEnv LANG LC_*
-#   HashKnownHosts yes
-#   GSSAPIAuthentication yes
-#   GSSAPIDelegateCredentials no
-
-Host myserver
-    HostName 56.146.70.37
-    IdentityFile ~/.ssh/school
-    PasswordAuthentication no
+    SendEnv LANG LC_*
+    HashKnownHosts yes
+    GSSAPIAuthentication yes
+    GSSAPIDelegateCredentials no
