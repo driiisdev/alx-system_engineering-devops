@@ -1,17 +1,12 @@
 #!/usr/bin/env bash
-# Install nginx server
-# Nginx should be listening on port 80
 # When querying Nginx at its root / with a GET request (requesting a page)
 
-# machine to respect above requirements (this script will be run on the
-# server itself)
 sudo apt-get update
+# Install nginx server
 sudo apt-get -y install nginx
+# configure nginx to listen on port 80
 sudo ufw allow 'Nginx HTTP'
-sudo apt-get -y install curl
-sudo service nginx start
-sudo sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
-
 # Creating Sample Page
-echo "Hello World!" > /var/www/html/index.html
+echo "Hello World!" > index.html 
+# start nginx
 sudo service nginx restart
