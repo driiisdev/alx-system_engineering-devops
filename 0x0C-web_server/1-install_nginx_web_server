@@ -2,8 +2,7 @@
 # Install nginx server
 # Nginx should be listening on port 80
 # When querying Nginx at its root / with a GET request (requesting a page)
-# using curl, it must return a page that contains the string Hello World!
-# As an answer file, write a Bash script that configures a new Ubuntu
+
 # machine to respect above requirements (this script will be run on the
 # server itself)
 sudo apt-get update
@@ -12,6 +11,7 @@ sudo ufw allow 'Nginx HTTP'
 sudo apt-get -y install curl
 sudo service nginx start
 sudo sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
-echo "Hello World!" > index.html 
-sudo cp index.html /var/www/html/
+
+# Creating Sample Page
+echo "Hello World!" > /var/www/html/index.html
 sudo service nginx restart
