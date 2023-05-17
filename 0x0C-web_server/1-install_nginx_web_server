@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
-# When querying Nginx at its root / with a GET request (requesting a page)
+# Installs Nginx with the following configurations:
 
 sudo apt-get update
+
 # Install nginx server
 sudo apt-get -y install nginx
+
 # configure nginx to listen on port 80
 sudo ufw allow 'Nginx HTTP'
+
 # Creating Sample Page
-echo "Hello World!" > index.html 
+echo "Hello World!" > /var/www/html/index.html
+
 # start nginx
 sudo service nginx restart
