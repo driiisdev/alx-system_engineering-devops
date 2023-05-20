@@ -1,22 +1,21 @@
-# Installs and configure nginx
-package { 'jfryman-nginx':
-  ensure => installed,
-}
+#!/usr/bin/env bash
+# Configure Nginx server to have a custom 404 page that contains the string Ceci n'est pas une page
 
-include nginx
+# Install nginx
+sudo apt-get update
+sudo apt-get install -y nginx
 
-class { 'nginx':
-  manage_repo    => true,
-  package_source => 'nginx-stable',
-}
+# Creating Sample Page
+echo "Hello World!" > /var/www/html/index.html
 
-nginx::resource::server { '18.210.13.255':
-  listen_port      => 80,
-  www_root         => '/var/www/html/',
-  vhost_cfg_append => { 'rewrite' => '^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent' },
-}
+# add the following configuration to the existing server block
+string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.google.com permanent;"
+sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
 
-file { 'index':
-  path    => '/var/www/html/index.nginx-debian.html',
-  content => 'Hello World!',
-}
+# code for error page and redirect error 404
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+string_for_replacement="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
+sudo sed -i "s/listen 80 default_server;/$string_for_replacement/" /etc/nginx/sites-enabled/default
+
+# Restart Nginx
+service nginx restart
