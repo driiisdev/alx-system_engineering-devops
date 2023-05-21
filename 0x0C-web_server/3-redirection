@@ -5,12 +5,16 @@
 sudo apt-get update
 sudo apt-get install -y nginx
 
+# configure nginx to listen on port 80
+sudo ufw allow 'Nginx HTTP'
+
 # Creating Sample Page
 sudo echo "Hello World!" > /var/www/html/index.html
+sudo echo "Hello World!" > /var/www/html/index.nginx-debian.html
 
-# add the following configuration to the existing server block
-string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.google.com permanent;"
-sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
+# configures an Nginx server so that /redirect_me is redirecting to another page
+sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+
 
 # Restart Nginx
 sudo service nginx restart
