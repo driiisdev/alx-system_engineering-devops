@@ -7,8 +7,8 @@ frontend myfrontend
     default_backend web_servers
 backend web_servers
     balance roundrobin
-    server 6361-web-01 100.26.56.24:80 check
-    server 6361-web-02 52.3.241.49:80 check
+    server 6361-web-01 54.172.232.38:80 check
+    server 6361-web-02 35.153.17.135:80 check
 "
 sudo apt-get -y install software-properties-common
 sudo add-apt-repository -y ppa:vbernat/haproxy-2.0
