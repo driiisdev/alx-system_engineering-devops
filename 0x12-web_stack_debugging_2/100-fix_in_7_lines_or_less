@@ -1,8 +1,31 @@
 #!/usr/bin/env bash
-# Run nginx as user nginx, including the master process
 
-pkill apache2
-sed -i 's/80/8080/g' /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default
-chown -R nginx /etc/nginx /var/log/nginx /usr/share/nginx
-chmod 777 /etc/nginx/nginx.conf
-su nginx -c nginx
+#!/bin/bash
+
+if [ "$EUID" -ne 0 ]; then
+    echo "This script must be run as root."
+    exit 1
+fi
+
+if ! id "nginx" &> /dev/null; then useradd -r -s /sbin/nologin nginx; fi
+if ! command -v nginx &> /dev/null; then
+    tar -xvf nginx-1.21.3.tar.gz
+    cd nginx-1.21.3
+    ./configure --user=nginx --group=nginx --prefix=/usr/local/nginx --with-http_ssl_module
+    make
+    make install
+    cd .. && rm -rf nginx-1.21.3 nginx-1.21.3.tar.gz
+fi
+
+echo "server {
+    listen 8080;
+    server_name _;
+
+    location / {
+        root /usr/local/nginx/html;
+        index index.html;
+    }
+}" > /usr/local/nginx/conf/nginx.conf
+
+/usr/local/nginx/sbin/nginx
+
