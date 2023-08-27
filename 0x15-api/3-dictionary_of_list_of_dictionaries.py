@@ -33,5 +33,6 @@ def do_request():
     with open('todo_all_employees.json', 'w') as file:
         json.dump(data, file)
 
+
 if __name__ == '__main__':
     do_request()
