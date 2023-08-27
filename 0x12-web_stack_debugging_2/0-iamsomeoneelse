@@ -1,3 +1,11 @@
 #!/usr/bin/env bash
-# Runs whoami as passed user
-sudo -u "$1" whoami
+#write a Bash script that accepts one argument
+#the script should run the whoami command under the user passed as an argument
+#make sure to try your script by passing different users
+if [ $# = 1 ]
+then
+        sudo -H -u "$1" bash -c 'whoami' 
+elif [ $# = 0 ]
+then
+    whoami
+fi
