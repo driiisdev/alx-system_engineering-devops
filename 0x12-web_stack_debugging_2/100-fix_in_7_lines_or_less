@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# makes ngix run as nginx user
-sudo sed -i '1 i\user nginx;' /etc/nginx/nginx.conf
-sudo sed -i "s/80 default_server/8080 default_server/g" /etc/nginx/sites-enabled/default
-chmod 644 /etc/nginx/nginx.conf
+# Run nginx as user nginx, including the master process
+
 pkill apache2
-sudo -u nginx service nginx start
+sed -i 's/80/8080/g' /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default
+chown -R nginx /etc/nginx /var/log/nginx /usr/share/nginx
+chmod 777 /etc/nginx/nginx.conf
+su nginx -c nginx
