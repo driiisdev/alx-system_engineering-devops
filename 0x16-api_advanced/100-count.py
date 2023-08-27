@@ -21,7 +21,7 @@ def count_words(subreddit, word_list, hot_list=[], after=None):
                             headers=headers, params=params)
     if response.status_code != 200:
         return None
-    data = response.json().get('data', {}).lower()
+    data = response.json().get('data', {})
     after = data.get('after', 'STOP')
     if not after:
         after = "STOP"
@@ -34,9 +34,11 @@ def print_results(word_list, hot_list):
     '''Prints request results'''
     count = {}
     for word in word_list:
+        word = word.lower()
         count[word] = 0
     for title in hot_list:
         for word in word_list:
+            word = word.lower()
             count[word] = count[word] +\
              len(re.findall(r'(?:^| ){}(?:$| )'.format(word), title, re.I))
 
