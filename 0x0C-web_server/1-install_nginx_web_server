@@ -12,9 +12,7 @@ sudo apt-get install -y nginx
 sudo ufw allow 'Nginx HTTP'
 
 # Creating Sample Page
-# echo "Hello World!" | sudo tee /var/www/html/index.html
-# OR
-echo "Hello World!" | tee /var/www/html/index.nginx-debian.html
+sudo sh -c 'echo "Hello World!" | tee /var/www/html/index.nginx-debian.html'
 
 # Start Nginx
 sudo service nginx start
