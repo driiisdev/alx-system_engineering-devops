@@ -7,7 +7,9 @@ sudo apt-get -y install nginx
 sudo service nginx start
 
 sudo sh -c 'echo "Hello World!" > /var/www/html/index.nginx-debian.html'
+
 echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/custom_404.html
+
 sudo sh -c 'printf %s "server {
     listen 80 default_server;
     listen [::]:80 default_server;

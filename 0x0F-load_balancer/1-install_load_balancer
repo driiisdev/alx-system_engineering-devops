@@ -7,13 +7,14 @@ frontend myfrontend
     default_backend web_servers
 backend web_servers
     balance roundrobin
-    server 6361-web-01 54.172.232.38:80 check
-    server 6361-web-02 35.153.17.135:80 check
+    server 6361-web-01 54.227.196.53:80 check
+    server 6361-web-02 35.153.98.2:80 check
 "
 sudo apt-get -y install software-properties-common
 sudo add-apt-repository -y ppa:vbernat/haproxy-2.0
 sudo apt-get -y update
 sudo apt-get -y install haproxy=2.0.\*
+
 # Backup original config file before attempt modifications
 sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
 printf "%s" "$CONFIG" >> /etc/haproxy/haproxy.cfg
