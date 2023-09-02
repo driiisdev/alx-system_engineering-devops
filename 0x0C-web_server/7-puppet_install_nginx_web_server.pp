@@ -1,34 +1,25 @@
-# To install & configure nginx on a server using Puppet
+# Script to install nginx using puppet
 
-$config = "server {
-	listen 80 default_server;
-        listen [::]:80 default_server;
-
-        root /var/www/html;
-        index index.html;
-
-        location /redirect_me {
-                return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-        }
-}"
-
-package { 'nginx':  # Installs an Nginx server
-ensure	=> 'installed',
+package {'nginx':
+  ensure => 'present',
 }
 
-file { 'index.html':
-ensure	=> 'present',
-path	=> '/var/www/html/index.html',
-content	=> 'Hello World!',
-mode	=> '0644'
+exec {'install':
+  command  => 'sudo apt-get update ; sudo apt-get -y install nginx',
+  provider => shell,
+
 }
 
-file { 'server_config':
-ensure	=> 'present',
-path 	=> '/etc/nginx/sites-available/default',
-content => $config
+exec {'Hello':
+  command  => 'echo "Hello World!" | sudo tee /var/www/html/index.html',
+  provider => shell,
 }
 
-exec { 'service nginx restart':
-path	=> ['/usr/sbin', '/usr/bin']
+exec {'sudo sed -i "s/listen 80 default_server;/listen 80 default_server;\\n\\tlocation \/redirect_me {\\n\\t\\treturn 301 https:\/\/www.youtube.com\/@themathsclub\/;\\n\\t}/" /etc/nginx/sites-available/default':
+  provider => shell,
+}
+
+exec {'run':
+  command  => 'sudo service nginx restart',
+  provider => shell,
 }

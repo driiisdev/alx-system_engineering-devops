@@ -1,1 +1,1 @@
-# load balancer - Nginx
+# load balancer - HAProxy
