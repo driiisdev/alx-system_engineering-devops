@@ -1,31 +1,7 @@
 #!/usr/bin/env bash
-
-#!/bin/bash
-
-if [ "$EUID" -ne 0 ]; then
-    echo "This script must be run as root."
-    exit 1
-fi
-
-if ! id "nginx" &> /dev/null; then useradd -r -s /sbin/nologin nginx; fi
-if ! command -v nginx &> /dev/null; then
-    tar -xvf nginx-1.21.3.tar.gz
-    cd nginx-1.21.3
-    ./configure --user=nginx --group=nginx --prefix=/usr/local/nginx --with-http_ssl_module
-    make
-    make install
-    cd .. && rm -rf nginx-1.21.3 nginx-1.21.3.tar.gz
-fi
-
-echo "server {
-    listen 8080;
-    server_name _;
-
-    location / {
-        root /usr/local/nginx/html;
-        index index.html;
-    }
-}" > /usr/local/nginx/conf/nginx.conf
-
-/usr/local/nginx/sbin/nginx
-
+# Run Nginx as Nginx
+sed -i 's/user www-data/user nginx/' /etc/nginx/nginx.conf
+chmod 644 /etc/nginx/nginx.conf
+sed -i 's/80/8080/g' /etc/nginx/sites-available/default
+pkill apache2
+sudo -u nginx service nginx start

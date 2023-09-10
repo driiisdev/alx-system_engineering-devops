@@ -1,45 +1,20 @@
 #!/usr/bin/env bash
+# Run Nginx as Nginx
 
-# Check if script is being run as root
-if [ "$EUID" -ne 0 ]; then
-    echo "This script must be run as root."
-    exit 1
-fi
+# Stop nginx if it's currently running
+sudo service nginx stop
 
-# Create nginx user if it doesn't exist
-if ! id "nginx" &> /dev/null; then
-    useradd -r -s /sbin/nologin nginx
-fi
+# Change nginx user in nginx.conf
+sed -i 's/user www-data/user nginx/' /etc/nginx/nginx.conf
 
-# Install nginx (if not already installed)
-if ! command -v nginx &> /dev/null; then
-    # Download and install nginx
-    wget https://nginx.org/download/nginx-1.21.3.tar.gz
-    tar -xvf nginx-1.21.3.tar.gz
-    cd nginx-1.21.3
+# Change ownership of nginx directories to nginx user
+chmod 644 /etc/nginx/nginx.conf
 
-    # Configure, make, and install nginx
-    ./configure --user=nginx --group=nginx --prefix=/usr/local/nginx --with-http_ssl_module
-    make
-    make install
+# Configure nginx to listen on all active IPs on port 8080
+sed -i 's/80/8080/g' /etc/nginx/sites-available/default
 
-    # Clean up
-    cd ..
-    rm -rf nginx-1.21.3 nginx-1.21.3.tar.gz
-fi
-
-# Configure nginx to listen on all IPs on port 8080
-echo "
-server {
-    listen 8080;
-    server_name _;
-
-    location / {
-        root /usr/local/nginx/html;
-        index index.html;
-    }
-}" > /usr/local/nginx/conf/nginx.conf
+# apache may interfere with nginx so kill the process if it is running
+pkill apache2
 
 # Start nginx
-/usr/local/nginx/sbin/nginx
-
+sudo -u nginx service nginx start
