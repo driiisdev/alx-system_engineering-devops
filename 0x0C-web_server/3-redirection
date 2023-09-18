@@ -5,12 +5,8 @@
 sudo apt-get update
 sudo apt-get -y install nginx
 
-# Creating Sample Page
-sudo echo "Hello World!" > tee /var/www/html/index.html
-
 # configures an Nginx server so that /redirect_me is redirecting to another page
-string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;"
-sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
+sudo sed -i '37i\rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
 
 # Restart Nginx
 sudo service nginx restart

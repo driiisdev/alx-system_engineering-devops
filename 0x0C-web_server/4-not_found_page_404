@@ -3,19 +3,13 @@
 
 # Install nginx
 sudo apt-get update
-sudo apt-get install -y nginx
+sudo apt-get -y install nginx
 
-# Creating Sample Page
-echo "Hello World!" > /var/www/html/index.html
+# code for error page 
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/error_404.html
 
-# add the following configuration to the existing server block
-string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.youtube.com/@themathsclub permanent;"
-sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
-
-# code for error page and redirect error 404
-echo "Ceci n'est pas une page" > /var/www/html/404.html
-string_for_replacement="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
-sudo sed -i "s/listen 80 default_server;/$string_for_replacement/" /etc/nginx/sites-enabled/default
+# configures an Nginx server so that /error_page 404 is redirecting to error page 
+sudo sed -i '38i\error_page 404 /error_404.html;' /etc/nginx/sites-available/default
 
 # Restart Nginx
-service nginx restart
+sudo service nginx restart

@@ -6,7 +6,7 @@ sudo apt-get -y update
 sudo apt-get -y install haproxy
 
 # Configure HAProxy using roundrobin algorithm
-echo "
+sudo echo "
 frontend http_front
         bind *:80
         default_backend http_back
@@ -20,4 +20,4 @@ backend http_back
 # Enable HAProxy management
 sudo sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/haproxy
 
-sudo service haproxy restart
+sudo service haproxy estart
