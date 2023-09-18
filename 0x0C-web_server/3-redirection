@@ -6,7 +6,7 @@ sudo apt-get update
 sudo apt-get -y install nginx
 
 # configures an Nginx server so that /redirect_me is redirecting to another page
-sudo sed -i '37i\rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+sudo sed -i '37i\rewrite ^/redirect_me http://driiis.tech permanent;' /etc/nginx/sites-available/default
 
 # Restart Nginx
 sudo service nginx restart

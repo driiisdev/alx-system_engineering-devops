@@ -15,7 +15,19 @@ exec {'Hello':
   provider => shell,
 }
 
-exec {'sudo sed -i "s/listen 80 default_server;/listen 80 default_server;\\n\\tlocation \/redirect_me {\\n\\t\\treturn 301 https:\/\/www.youtube.com\/@themathsclub\/;\\n\\t}/" /etc/nginx/sites-available/default':
+exec {'run':
+  command  => 'sudo sed -i '37i\rewrite ^/redirect_me http://driiis.tech permanent;' /etc/nginx/sites-available/default,
+  provider => shell,
+}
+
+
+exec {'Ceci n\'est pas une page':
+  command  => 'echo "Ceci n\'est pas une page" | sudo tee /var/www/html/error_404.html',
+  provider => shell,
+}
+
+exec {'run':
+  command  => 'sudo sed -i '38i\error_page 404 /error_404.html;' /etc/nginx/sites-available/default',
   provider => shell,
 }
 
