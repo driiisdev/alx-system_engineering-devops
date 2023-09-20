@@ -7,17 +7,18 @@ sudo apt-get -y install haproxy
 
 # Configure HAProxy using roundrobin algorithm
 sudo echo "
-frontend http_front
+frontend driiis.tech-frontend
         bind *:80
-        default_backend http_back
+        mode http
+        default_backend driiis.tech-backend
 
-backend http_back
+backend driiis.tech-backend
         balance roundrobin
-        server 124201-web-01 54.227.196.53:80 check
+        server 124201-web-01 54.175.225.218:80 check
         server 124201-web-02 35.153.98.2:80 check
 ">> /etc/haproxy/haproxy.cfg
 
 # Enable HAProxy management
 sudo sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/haproxy
 
-sudo service haproxy estart
+sudo service haproxy restart
