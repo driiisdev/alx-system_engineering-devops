@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import requests
 
 BASE_URL = 'http://reddit.com/r/{}/hot.json'
