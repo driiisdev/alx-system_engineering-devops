@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+'''Get top 10 hot posts'''
+import pprint
 import requests
 
 BASE_URL = 'http://reddit.com/r/{}/hot.json'
@@ -10,16 +12,12 @@ def top_ten(subreddit):
         subreddit: The name of the subreddit to query.
     """
 
+    headers = {'User-agent': 'Unix:0-subs:v1'}
     response = requests.get(BASE_URL.format(subreddit),
-                            allow_redirects=False)
+                headers=headers)
 
     # Check for 404 status code
     if response.status_code == 404:
-        print(None)
-        return
-
-    # Check for redirect
-    if response.headers.get('Location'):
         print(None)
         return
 
@@ -28,6 +26,5 @@ def top_ten(subreddit):
         print(None)
         return
 
-    # Print the titles of the top 10 hot posts
     for post in data[0:10]:
         print(post.get('data', {}).get('title'))
