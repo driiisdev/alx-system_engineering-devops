@@ -5,16 +5,13 @@ import requests
 
 BASE_URL = 'http://reddit.com/r/{}/hot.json'
 
-def top_ten(subreddit):
-    """Queries the Reddit API and prints the titles of the first 10 hot posts listed for a given subreddit.
 
-    Args:
-        subreddit: The name of the subreddit to query.
-    """
+def top_ten(subreddit):
+    '''Get top 10 hot posts'''
 
     headers = {'User-agent': 'Unix:0-subs:v1'}
     response = requests.get(BASE_URL.format(subreddit),
-                headers=headers)
+                            headers=headers)
 
     # Check for 404 status code
     if response.status_code == 404:
