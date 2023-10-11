@@ -13,7 +13,7 @@ def top_ten(subreddit):
                             headers=headers)
 
     # Check for 404 status code
-    if response.status_code == 404:
+    if response.status_code >= 300:
         print(None)
         return
 
