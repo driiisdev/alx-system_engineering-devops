@@ -15,10 +15,18 @@ def top_ten(subreddit):
     # Check for 404 status code
     if response.status_code == 404:
         print("Subreddit does not exist")
-    return
+        return
 
     data = response.json().get('data', {}).get('children', {})
     if response.status_code != 200 or not data:
-        return print("None")
+        print("No hot posts")
+        return
+
+    # Print the top 10 hot posts
     for post in data[0:10]:
         print(post.get('data', {}).get('title'))
+
+
+if __name__ == '__main__':
+    subreddit = input("Enter subreddit name: ")
+    top_ten(subreddit)
