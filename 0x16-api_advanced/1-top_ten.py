@@ -8,7 +8,6 @@ BASE_URL = 'http://reddit.com/r/{}/hot.json'
 
 def top_ten(subreddit):
     '''Get top 10 hot posts'''
-
     headers = {'User-agent': 'Unix:0-subs:v1'}
     response = requests.get(BASE_URL.format(subreddit),
                             headers=headers)
