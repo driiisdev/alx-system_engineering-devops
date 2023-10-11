@@ -10,7 +10,7 @@ def top_ten(subreddit):
     '''Get top 10 hot posts'''
     headers = {'User-agent': 'Unix:0-subs:v1'}
     response = requests.get(BASE_URL.format(subreddit),
-        headers=headers)
+                            headers=headers)
 
     # Check for 404 status code
     if response.status_code == 404:
@@ -18,13 +18,7 @@ def top_ten(subreddit):
     return
 
     data = response.json().get('data', {}).get('children', {})
-    if not data:
-        print("None")
-    else:
-        for post in data[0:10]:
-            print(post.get('data', {}).get('title'))
-
-
-if __name__ == '__main__':
-    subreddit = input("Enter subreddit name: ")
-    top_ten(subreddit)
+    if response.status_code != 200 or not data:
+        return print("None")
+    for post in data[0:10]:
+        print(post.get('data', {}).get('title'))
