@@ -37,7 +37,8 @@ defaults
 frontend http_front
         bind *:80
         bind *:443 ssl crt /etc/haproxy/certs/www.driiis.tech.pem
-        redirect scheme https if !{ ssl_fc }
+        redirect scheme https if code 301 !{ ssl_fc }
+        mode http
         default_backend http_back
         
 backend http_back
